@@ -270,7 +270,56 @@ module.exports.getBlockedUsers = async(req,res,next)=>{
 
 
 
+//======= DELETE
+//======= /api/v1/users/delete/:userId
+//======= POROTECTED 
+//======= TESTED USING POSTMAN
+module.exports.deleteUser = async(req,res,next)=>{
+    const {userId}=req.params ; 
 
+    try{
+
+        const userToDelete=await User.findById(userId); 
+
+        if(!userToDelete){
+            throw new HttpError("User not found!",404); 
+        }
+
+
+        //deelete any related things with this user from database 
+        await Post.deleteMany({user:userId}); 
+        await Post.deleteMany({"comments.user":userId}); 
+        await Post.deleteMany({"comments.replies.user":userId}); 
+        await Comment.deleteMany({user:userId}); 
+        await Story.deleteMany({user:userId}); 
+        await Post.updateMany({likes:userId},{$pull:{likes:userId}}); 
+        await User.updateMany(
+            {_id:{$in:userToDelete.following}},
+            {$pull:{followers:userId}});
+        await Comment.updateMany({},{$pull:{likes:userId}}); 
+        await Comment.updateMany({"replies.likes":userId},{$pull:{"replies.likes":userId}}); 
+        await Post.updateMany({},{$pull:{likes:userId}}); 
+
+        const replyComments=await Comment.find({"replies.user":userId});
+
+
+        //delete this user replies and avoid to delete other replies 
+        await Promise.all(
+            replyComments.map(async(comment)=>{
+                comment.replies=comment.replies.filter((reply)=>reply.user.toString()!=userId)
+                await Comment.save()
+            })
+        )
+
+        //deleting the user 
+        await userToDelete.deleteOne()
+        res.status(200).json({message:"Everything associated with user is deleted successfully!"})
+
+    }
+    catch(error){
+        next(error)
+    }
+}
 
 
 

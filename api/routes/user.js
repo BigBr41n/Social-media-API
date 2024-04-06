@@ -1,5 +1,5 @@
 const router=require("express").Router(); 
-const {getUser , updateUser ,followUser , unfollowUser ,blockUser ,unBlockUser , getBlockedUsers } = require('../controllers/userController'); 
+const {getUser , updateUser ,followUser , unfollowUser ,blockUser ,unBlockUser , getBlockedUsers , deleteUser } = require('../controllers/userController'); 
 
 
 //GET USER
@@ -26,10 +26,11 @@ router.post("/unblock/:userId",unBlockUser);
 router.get("/blocked/:userId",getBlockedUsers);
 
 
-/*
-//DELETE USER
-router.delete("/delete/:userId",deleteUser)
 
+//DELETE USER
+router.delete("/delete/:userId",deleteUser); 
+
+/*
 //SEARCH USER
 router.get("/search/:query",searchUser)
 
