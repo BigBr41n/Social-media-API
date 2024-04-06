@@ -1,5 +1,7 @@
 //imports
 const express = require('express');
+const cookieParser = require('cookie-parser'); 
+const path = require('path'); 
  
 
 //routes import
@@ -13,7 +15,9 @@ const app = express();
 
 
 //middlewares 
-
+app.use(express.json())
+app.use(cookieParser())
+app.use("/uploads",express.static(path.join(__dirname,"uploads")))
 
 //routes 
 
