@@ -1,35 +1,43 @@
 const router=require("express").Router(); 
 const {getUser , updateUser ,followUser , unfollowUser ,blockUser ,unBlockUser , getBlockedUsers , deleteUser ,uploadProfilePicture , uploadCoverPicture , searchUser } = require('../controllers/userController'); 
 const upload = require('../middlewares/upload'); 
+const verifyToken = require('../middlewares/verifyToken'); 
 
 
 //GET USER
 router.get("/:userId",getUser); 
 
 //UPDATE USER
-router.put("/update/:userId",updateUser); 
+//POROTECTED ROUTE
+router.put("/update/:userId", verifyToken ,updateUser); 
 
 //FOLLOW USER
-router.post("/follow/:userId",followUser); 
+//PROTECTED ROUTE
+router.post("/follow/:userId", verifyToken ,followUser); 
 
 
 //UNFOLLOW USER
-router.post("/unfollow/:userId",unfollowUser); 
+//POROTECTED ROUTE
+router.post("/unfollow/:userId", verifyToken ,unfollowUser); 
 
 
 //BLOCK USER
-router.post("/block/:userId",blockUser);
+//POROTECTED ROUTE
+router.post("/block/:userId", verifyToken ,blockUser);
 
 //UNBLOCK USER
-router.post("/unblock/:userId",unBlockUser);
+//POROTECTED ROUTE
+router.post("/unblock/:userId", verifyToken ,unBlockUser);
 
 //GET BLOCKED USERS
-router.get("/blocked/:userId",getBlockedUsers);
+//POROTECTED ROUTE
+router.get("/blocked/:userId", verifyToken ,getBlockedUsers);
 
 
 
 //DELETE USER
-router.delete("/delete/:userId",deleteUser); 
+//POROTECTED ROUTE
+router.delete("/delete/:userId", verifyToken ,deleteUser); 
 
 
 //SEARCH USER
@@ -37,9 +45,11 @@ router.get("/search/:query",searchUser)
 
 
 //UPDATE PROFILE PICTURE
-router.put("/update-profile-picture/:userId",upload.single("profilePicture"), uploadProfilePicture); 
+//POROTECTED ROUTE
+router.put("/update-profile-picture/:userId", verifyToken , upload.single("profilePicture"), uploadProfilePicture); 
 
 //UPDATE PROFILE PICTURE
-router.put("/update-cover-picture/:userId",upload.single("coverPicture"),uploadCoverPicture); 
+//POROTECTED ROUTE
+router.put("/update-cover-picture/:userId", verifyToken ,upload.single("coverPicture"),uploadCoverPicture); 
 
 module.exports=router ; 
