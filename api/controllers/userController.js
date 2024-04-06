@@ -395,3 +395,41 @@ module.exports.uploadCoverPicture = async(req,res,next)=>{
 
 
 
+//======= GET
+//======= /api/v1/users/search/:query/:query
+//======= POROTECTED 
+//======= TESTED USING POSTMAN
+module.exports.searchUser = async (req,res,next)=>{
+    const {query}=req.params ;
+    try{
+
+        //search about the user in the db
+        const users=await User.find({
+            $or:[
+                {username:{$regex:new RegExp(query,'i')}},
+                {fullName:{$regex:new RegExp(query,'i')}}
+            ]
+        })
+
+
+        // Filter out the password from each user object
+        const usersWithoutPassword = users.map(user => {
+            const { password, ...userWithoutPassword } = user.toObject(); // Convert Mongoose document to plain JavaScript object
+            return userWithoutPassword;
+        });
+        res.status(200).json({users : usersWithoutPassword}) ; 
+    }
+    catch(error){
+        next(error); 
+    }
+
+}
+
+
+
+
+
+
+
+
+
