@@ -7,6 +7,12 @@ const path = require('path');
 //routes import
 
 
+
+
+//middelware import 
+const {errorHandler , notFound} = require('./api/middlewares/errorsMiddleware'); 
+
+
 //app instance 
 const app = express(); 
 
@@ -20,11 +26,15 @@ app.use(cookieParser())
 app.use("/uploads",express.static(path.join(__dirname,"uploads")))
 
 //routes 
-
+//testing
+app.get('/' , (req , res)=>{
+    res.send('HOME here'); 
+})
 
 
 //404 & error handler 
-
+app.use(notFound); 
+app.use(errorHandler); 
 
 
 
