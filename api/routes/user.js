@@ -1,5 +1,6 @@
 const router=require("express").Router(); 
-const {getUser , updateUser ,followUser , unfollowUser ,blockUser ,unBlockUser , getBlockedUsers , deleteUser } = require('../controllers/userController'); 
+const {getUser , updateUser ,followUser , unfollowUser ,blockUser ,unBlockUser , getBlockedUsers , deleteUser ,uploadProfilePicture , uploadCoverPicture } = require('../controllers/userController'); 
+const upload = require('../middlewares/upload'); 
 
 
 //GET USER
@@ -33,11 +34,12 @@ router.delete("/delete/:userId",deleteUser);
 /*
 //SEARCH USER
 router.get("/search/:query",searchUser)
+*/
 
 //UPDATE PROFILE PICTURE
-router.put("/update-profile-picture/:userId",uploadProfilePicture)
+router.put("/update-profile-picture/:userId",upload.single("profilePicture"), uploadProfilePicture); 
 
 //UPDATE PROFILE PICTURE
-router.put("/update-cover-picture/:userId",uploadCoverPicture) */
+router.put("/update-cover-picture/:userId",upload.single("coverPicture"),uploadCoverPicture); 
 
 module.exports=router

@@ -3,6 +3,7 @@ const User=require("../models/User");
 const Post=require("../models/Post");
 const Comment=require("../models/Comment");
 const Story=require("../models/Story");
+require('dotenv').config(); 
 
 
 
@@ -318,6 +319,73 @@ module.exports.deleteUser = async(req,res,next)=>{
     }
     catch(error){
         next(error)
+    }
+}; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//function to generate a file Url for a pic
+const generateFileUrl=(filename)=>{
+    return process.env.URL+`/uploads/${filename}`
+}
+
+
+
+//======= PUT
+//======= /api/v1/users/update-profile-picture/:userId
+//======= POROTECTED 
+//======= TESTED USING POSTMAN
+module.exports.uploadProfilePicture = async(req,res,next)=>{
+    const {userId}=req.params ; 
+    const {filename}=req.file ; 
+    try{
+        const user=await User.findByIdAndUpdate(userId,{profilePicture:generateFileUrl(filename)},{new:true});
+        if(!user){
+            throw new HttpError("User not found!",404); 
+        }
+
+        res.status(200).json({message:"Profile picture updated successfully!",user}); 
+
+    }
+    catch(error){
+        next(error); 
+    }
+}
+
+
+
+
+
+
+//======= PUT
+//======= /api/v1/users/update-cover-picture/:userId
+//======= POROTECTED 
+//======= TESTED USING POSTMAN
+module.exports.uploadCoverPicture = async(req,res,next)=>{
+    const {userId}=req.params ; 
+    const {filename}=req.file ; 
+    try{
+        const user=await User.findByIdAndUpdate(userId,{coverPicture:generateFileUrl(filename)},{new:true}); 
+        if(!user){
+            throw new CustomError("User not found!",404); 
+        }
+
+        res.status(200).json({message:"Cover picture updated successfully!",user}); 
+
+    }
+    catch(error){
+        next(error); 
     }
 }
 
