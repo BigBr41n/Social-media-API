@@ -5,6 +5,7 @@ const path = require('path');
  
 
 //routes import
+const userRoute = require('./api/routes/user'); 
 
 
 
@@ -27,9 +28,7 @@ app.use("/uploads",express.static(path.join(__dirname,"uploads")))
 
 //routes 
 //testing
-app.get('/' , (req , res)=>{
-    res.send('HOME here'); 
-})
+app.use('/api/v1/users' , userRoute); 
 
 
 //404 & error handler 
