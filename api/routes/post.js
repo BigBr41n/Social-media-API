@@ -25,7 +25,7 @@ router.post(
 router.put("/update/:postId", verifyToken, updatePost);
 
 //GET ALL POSTS
-router.get("/all/:userId", verifyToken, getPosts);
+router.get("/all/:userId", getPosts);
 
 //DELETE POST
 router.delete("/delete/:postId", verifyToken, deletePost);

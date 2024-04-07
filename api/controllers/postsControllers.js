@@ -7,7 +7,7 @@ const HttpError = require("../models/errorModel");
 //======== PROTECTED
 //======== TESTED
 module.exports.createPost = async (req, res, next) => {
-  const { userId } = req.userId; //sent by jwt (the logedIn User);
+  const { userId } = req; //sent by jwt (the logedIn User);
   const { caption } = req.body;
   try {
     const user = await User.findById(userId);
@@ -43,7 +43,7 @@ const generateFileUrl = (filename) => {
 //======== PROTECTED
 //======== TESTED
 module.exports.createPostWithImages = async (req, res, next) => {
-  const { userId } = req.userId; //jwt
+  const { userId } = req; //jwt
   const { caption } = req.body;
   const files = req.files;
 
@@ -161,7 +161,7 @@ module.exports.deletePost = async (req, res, next) => {
 //======== TESTED
 module.exports.likePost = async (req, res, next) => {
   const { postId } = req.params;
-  const { userId } = req.body;
+  const { userId } = req;
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -188,7 +188,7 @@ module.exports.likePost = async (req, res, next) => {
 //======== TESTED
 module.exports.dislikePost = async (req, res, next) => {
   const { postId } = req.params;
-  const { userId } = req.userId;
+  const { userId } = req;
   try {
     const post = await Post.findById(postId);
     if (!post) {
