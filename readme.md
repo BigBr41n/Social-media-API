@@ -1,4 +1,4 @@
-# MERN Blog API
+# SOCIAL MEDIA API
 
 ## Description
 
