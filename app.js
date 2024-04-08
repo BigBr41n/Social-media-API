@@ -7,6 +7,8 @@ const path = require("path");
 const userRoute = require("./api/routes/user");
 const authRoute = require("./api/routes/auth");
 const commentsRoute = require("./api/routes/comment");
+const messagesRoute = require("./api/routes/messages");
+const conversationRoute = require("./api/routes/conversations");
 
 //middelware import
 const {
@@ -30,6 +32,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/comments", commentsRoute);
+app.use("/api/v1/conversation", conversationRoute);
+app.use("/api/v1/message", messagesRoute);
 
 //404 & error handler
 app.use(notFound);
