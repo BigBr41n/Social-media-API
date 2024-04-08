@@ -136,6 +136,8 @@ Replace `<your-mongodb-uri>` with your MongoDB connection string and `<your-jwt-
 
 The API handles errors with custom middleware. It returns appropriate HTTP status codes and error messages in JSON format.
 
+![postman](./postman.png)
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
